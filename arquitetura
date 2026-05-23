@@ -1,0 +1,125 @@
+# Planejamento Técnico — Arquitetura
+
+## Estrutura de Pastas
+
+```
+eventua/
+├── src/
+│   ├── controllers/
+│   │   ├── authController.js        # Login, logout, cadastro
+│   │   ├── eventoController.js      # CRUD de eventos
+│   │   └── inscricaoController.js   # Inscrição e cancelamento
+│   ├── services/
+│   │   ├── authService.js           # Lógica de autenticação e hash de senha
+│   │   ├── eventoService.js         # Regras de negócio de eventos
+│   │   └── inscricaoService.js      # Regras de inscrição (capacidade, duplicidade)
+│   ├── repositories/
+│   │   ├── usuarioRepository.js     # Acesso a dados de usuários
+│   │   ├── eventoRepository.js      # Acesso a dados de eventos
+│   │   └── inscricaoRepository.js   # Acesso a dados de inscrições
+│   ├── middlewares/
+│   │   ├── authMiddleware.js        # Verifica se usuário está logado
+│   │   └── adminMiddleware.js       # Verifica se usuário é administrador
+│   ├── routes/
+│   │   ├── authRoutes.js            # Rotas de autenticação
+│   │   ├── eventoRoutes.js          # Rotas de eventos
+│   │   └── inscricaoRoutes.js       # Rotas de inscrições
+│   ├── views/
+│   │   ├── partials/                # Header, footer, navbar
+│   │   ├── auth/                    # login.html, cadastro.html
+│   │   ├── eventos/                 # listagem, detalhes, form criação/edição
+│   │   ├── dashboard/               # painel do usuário e do admin
+│   │   └── errors/                  # 403.html, 404.html
+│   └── public/
+│       ├── css/
+│       ├── js/
+│       └── img/
+├── data/                            # Arquivos JSON (persistência simples)
+│   ├── usuarios.json
+│   ├── eventos.json
+│   └── inscricoes.json
+├── app.js                           # Configuração do Express
+├── server.js                        # Inicialização do servidor
+└── package.json
+```
+
+## Descrição das Responsabilidades
+
+### Controller
+Recebe as requisições HTTP, extrai os dados necessários (body, params, session) e chama o Service correspondente. Devolve a resposta (render de view ou redirect). **Não contém regras de negócio.**
+
+### Service
+Contém toda a lógica de negócio: validações, verificação de capacidade, criptografia de senha, regras de negócio de inscrição. Chama o Repository para acessar dados. **Não acessa dados diretamente.**
+
+### Repository
+Responsável exclusivamente pelo acesso e persistência de dados (leitura e escrita nos arquivos JSON). **Não contém regras de negócio.**
+
+### Middlewares
+- **authMiddleware**: Verifica se `req.session.usuario` existe; caso contrário, redireciona para `/login`.
+- **adminMiddleware**: Verifica se `req.session.usuario.perfil === 'admin'`; caso contrário, redireciona para `/403`.
+
+## Organização das Rotas
+
+As rotas são definidas em arquivos separados dentro de `src/routes/` e importadas em `app.js` com prefixos:
+
+```js
+app.use('/', authRoutes);
+app.use('/eventos', eventoRoutes);
+app.use('/inscricoes', inscricaoRoutes);
+```
+
+## Entidades do Sistema
+
+### Usuario
+```json
+{
+  "id": "uuid",
+  "nome": "string",
+  "email": "string",
+  "senha": "string (hash bcrypt)",
+  "perfil": "admin | participante",
+  "criadoEm": "ISO date"
+}
+```
+
+### Evento
+```json
+{
+  "id": "uuid",
+  "titulo": "string",
+  "descricao": "string",
+  "tipo": "corporativo | festa",
+  "data": "ISO date",
+  "local": "string",
+  "capacidade": "number",
+  "vagas": "number",
+  "status": "ativo | cancelado | encerrado",
+  "organizadorId": "uuid",
+  "criadoEm": "ISO date"
+}
+```
+
+### Inscricao
+```json
+{
+  "id": "uuid",
+  "usuarioId": "uuid",
+  "eventoId": "uuid",
+  "status": "confirmada | cancelada",
+  "criadaEm": "ISO date"
+}
+```
+
+## Relacionamento entre Entidades
+
+```
+Usuario  1 ---< Inscricao >--- 1  Evento
+  |                                  |
+  | (perfil admin)                   |
+  +------ organiza -------> Evento
+```
+
+- Um **Usuário** pode ter várias **Inscrições**
+- Um **Evento** pode ter várias **Inscrições**
+- Uma **Inscrição** pertence a um único Usuário e a um único Evento
+- Um Usuário com perfil `admin` pode criar e gerenciar Eventos
