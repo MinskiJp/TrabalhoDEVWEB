@@ -1,0 +1,45 @@
+# Definição das Rotas
+
+## Rotas Públicas
+Acessíveis sem autenticação.
+
+| Método | Rota | Finalidade |
+|--------|------|-----------|
+| GET | `/` | Página inicial (home/landing) |
+| GET | `/login` | Exibe formulário de login |
+| POST | `/login` | Processa autenticação |
+| GET | `/cadastro` | Exibe formulário de cadastro |
+| POST | `/cadastro` | Cria novo usuário |
+| GET | `/eventos` | Lista todos os eventos ativos |
+| GET | `/eventos/:id` | Exibe detalhes de um evento |
+| GET | `/403` | Página de acesso negado |
+| GET | `/404` | Página não encontrada |
+
+---
+
+## Rotas Privadas — Participante
+Requerem sessão ativa (`authMiddleware`).
+
+| Método | Rota | Finalidade |
+|--------|------|-----------|
+| GET | `/dashboard` | Painel pessoal do participante |
+| GET | `/minhas-inscricoes` | Lista as inscrições do usuário |
+| POST | `/inscricoes/:eventoId` | Realiza inscrição em um evento |
+| POST | `/inscricoes/:id/cancelar` | Cancela uma inscrição |
+| POST | `/logout` | Encerra a sessão |
+
+---
+
+## Rotas Privadas — Administrador
+Requerem sessão ativa com perfil admin (`authMiddleware` + `adminMiddleware`).
+
+| Método | Rota | Finalidade |
+|--------|------|-----------|
+| GET | `/admin` | Painel administrativo |
+| GET | `/admin/eventos` | Lista todos os eventos (admin) |
+| GET | `/admin/eventos/novo` | Exibe formulário de criação de evento |
+| POST | `/admin/eventos` | Cria novo evento |
+| GET | `/admin/eventos/:id/editar` | Exibe formulário de edição |
+| POST | `/admin/eventos/:id` | Atualiza dados do evento (simula PUT) |
+| POST | `/admin/eventos/:id/excluir` | Remove o evento (simula DELETE) |
+| GET | `/admin/eventos/:id/inscritos` | Lista inscritos de um evento |
