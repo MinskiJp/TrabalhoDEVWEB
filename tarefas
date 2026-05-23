@@ -1,0 +1,51 @@
+# Quebra de Tarefas da Equipe
+
+## Integrantes
+- **Integrante 1** — responsável pela estrutura base, autenticação e área do participante
+- **Integrante 2** — responsável pela área administrativa, eventos e front-end
+
+---
+
+## Divisão de Tarefas
+
+### Integrante 1 — Backend Auth + Participante
+
+| Tarefa | Descrição | Prazo |
+|--------|-----------|-------|
+| Estrutura do projeto | Criar pastas, configurar Express, session, package.json | Semana 1 |
+| Persistência de dados | Criar arquivos JSON e funções base dos repositories | Semana 1 |
+| Auth — cadastro/login | Controller, Service e Repository de usuário + hash de senha | Semana 2 |
+| authMiddleware | Proteção de rotas privadas | Semana 2 |
+| Dashboard participante | Rota `/dashboard` e página de inscrições | Semana 3 |
+| Inscrição/cancelamento | Controller, Service e Repository de inscrição | Semana 3 |
+| Testes e integração | Testar fluxo completo do participante | Semana 4 |
+
+### Integrante 2 — Backend Admin + Front-end
+
+| Tarefa | Descrição | Prazo |
+|--------|-----------|-------|
+| adminMiddleware | Proteção de rotas administrativas | Semana 1 |
+| CRUD de eventos | Controller, Service e Repository de evento | Semana 2 |
+| Painel admin | Rotas e views da área administrativa | Semana 2 |
+| Listagem pública | Página `/eventos` e `/eventos/:id` | Semana 3 |
+| Front-end geral | CSS, layout, HTML das telas | Semana 3 |
+| Telas de erro | Páginas 403 e 404 | Semana 4 |
+| Testes e integração | Testar fluxo completo do administrador | Semana 4 |
+
+---
+
+## Cronograma Simples
+
+| Semana | Marcos |
+|--------|--------|
+| Semana 1 | Entrega do Planejamento (Etapa 1) + estrutura base do projeto |
+| Semana 2 | Autenticação funcionando + CRUD de eventos funcionando |
+| Semana 3 | Inscrições, dashboards e front-end concluídos |
+| Semana 4 | Integração final, testes, ajustes e entrega da Etapa 2 |
+
+---
+
+## Responsabilidades Compartilhadas
+- Revisão dos arquivos um do outro antes de cada entrega
+- Versionamento via Git com commits descritivos
+- Reunião de alinhamento ao início de cada semana
