@@ -1,0 +1,40 @@
+# Descrição do Projeto
+
+## Nome do Sistema
+**Eventua** — Plataforma de Gestão de Eventos
+
+## Tema Escolhido
+Gerenciamento de eventos corporativos e festas particulares, permitindo que organizadores cadastrem e gerenciem eventos e que participantes se inscrevam neles.
+
+## Objetivo do Sistema
+Fornecer uma plataforma centralizada onde organizadores possam criar e administrar eventos (corporativos ou festas), e onde usuários cadastrados possam visualizar, se inscrever e acompanhar sua participação nos eventos disponíveis.
+
+## Descrição Geral do Funcionamento
+O sistema permite dois perfis de usuário: **Administrador** (organizador) e **Participante** (usuário comum).
+
+- O **administrador** acessa um painel privado onde pode criar, editar e excluir eventos, visualizar inscrições e controlar a capacidade de cada evento.
+- O **participante** realiza cadastro e login na plataforma, visualiza a lista pública de eventos disponíveis, realiza inscrição nos eventos de interesse e gerencia suas inscrições no painel pessoal.
+
+A autenticação é feita via sessão (express-session). Rotas privadas são protegidas por middleware de verificação de sessão. A arquitetura segue o padrão Controller → Service → Repository, com separação clara de responsabilidades entre camadas.
+
+## Público-Alvo
+- Empresas que organizam eventos corporativos internos (treinamentos, confraternizações, workshops)
+- Produtores de festas e eventos sociais
+- Participantes que desejam se inscrever e acompanhar eventos
+
+## Funcionalidades Principais
+
+| # | Funcionalidade | Perfil |
+|---|---|---|
+| 1 | Cadastro de usuário | Público |
+| 2 | Login / Logout com sessão | Público |
+| 3 | Listagem pública de eventos | Público |
+| 4 | Visualização de detalhes de evento | Público |
+| 5 | Inscrição em evento | Participante |
+| 6 | Cancelamento de inscrição | Participante |
+| 7 | Painel pessoal com minhas inscrições | Participante |
+| 8 | Criação de evento | Administrador |
+| 9 | Edição de evento | Administrador |
+| 10 | Exclusão de evento | Administrador |
+| 11 | Visualização de inscritos por evento | Administrador |
+| 12 | Página de acesso negado (403) | Sistema |
