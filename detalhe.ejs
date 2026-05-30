@@ -1,0 +1,37 @@
+<%- include('../partials/head', { titulo: evento.titulo }) %>
+<%- include('../partials/navbar') %>
+<main>
+  <div class="container">
+    <div class="detalhe">
+      <span class="eyebrow">Detalhe do evento</span>
+      <span class="badge badge-<%= evento.tipo === 'corporativo' ? 'corp' : 'festa' %>" style="margin-left:12px"><%= evento.tipo %></span>
+      <h1><%= evento.titulo %></h1>
+
+      <% if (typeof erro !== 'undefined' && erro) { %><div class="alert"><%= erro %></div><% } %>
+
+      <div class="info-grid">
+        <div><div class="k">Data</div><div class="v"><%= evento.data %></div></div>
+        <div><div class="k">Local</div><div class="v"><%= evento.local %></div></div>
+        <div><div class="k">Capacidade</div><div class="v"><%= evento.capacidade %> pessoas</div></div>
+        <div><div class="k">Vagas restantes</div><div class="v"><%= vagas %></div></div>
+      </div>
+
+      <% if (evento.descricao) { %><p class="desc"><%= evento.descricao %></p><% } %>
+
+      <% if (!usuario) { %>
+        <a href="/login" class="btn btn-primary">Entre para se inscrever</a>
+      <% } else if (jaInscrito) { %>
+        <span class="badge badge-ok" style="padding:11px 22px">Voce ja esta inscrito</span>
+      <% } else if (vagas <= 0) { %>
+        <span class="badge badge-no" style="padding:11px 22px">Esgotado</span>
+      <% } else { %>
+        <form action="/inscricoes/<%= evento.id %>" method="POST">
+          <button type="submit" class="btn btn-primary">Inscrever-se</button>
+        </form>
+      <% } %>
+
+      <p style="margin-top:28px"><a href="/eventos" class="muted">&larr; Voltar aos eventos</a></p>
+    </div>
+  </div>
+</main>
+<%- include('../partials/footer') %>

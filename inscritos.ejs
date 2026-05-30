@@ -1,0 +1,28 @@
+<%- include('../partials/head', { titulo: 'Inscritos' }) %>
+<%- include('../partials/navbar') %>
+<main>
+  <div class="container">
+    <span class="eyebrow">Inscritos no evento</span>
+    <div class="section-head" style="margin-top:12px"><h2><%= evento.titulo %></h2></div>
+
+    <% const confirmados = inscritos.filter(i => i.status === 'confirmada'); %>
+    <% if (confirmados.length === 0) { %>
+      <div class="empty"><div class="serif">Nenhum inscrito ainda</div></div>
+    <% } else { %>
+      <table class="table">
+        <thead><tr><th>Nome</th><th>E-mail</th><th>Inscrito em</th></tr></thead>
+        <tbody>
+          <% confirmados.forEach(i => { %>
+            <tr>
+              <td style="font-family:var(--serif); font-size:18px"><%= i.usuario ? i.usuario.nome : '—' %></td>
+              <td style="font-family:var(--mono); font-size:13px"><%= i.usuario ? i.usuario.email : '—' %></td>
+              <td style="font-family:var(--mono); font-size:12px"><%= new Date(i.criadaEm).toLocaleDateString('pt-BR') %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+    <p style="margin-top:28px"><a href="/admin" class="muted">&larr; Voltar ao painel</a></p>
+  </div>
+</main>
+<%- include('../partials/footer') %>

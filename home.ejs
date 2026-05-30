@@ -1,0 +1,53 @@
+<%- include('partials/head', { titulo: 'Inicio' }) %>
+<%- include('partials/navbar') %>
+
+<section class="hero">
+  <div class="container">
+    <span class="eyebrow">Plataforma de Eventos</span>
+    <h1>Conecte pessoas.<br>Organize momentos.</h1>
+    <p>Eventos corporativos e festas encontram seu publico na Eventua. Descubra, inscreva-se e acompanhe tudo em um so lugar.</p>
+    <div class="hero-actions">
+      <a href="/eventos" class="btn btn-primary">Ver eventos</a>
+      <% if (!usuario) { %><a href="/cadastro" class="btn btn-outline">Criar conta</a><% } %>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="container">
+    <div class="section-head">
+      <h2>Em destaque</h2>
+      <a href="/eventos" class="muted">Ver todos &rarr;</a>
+    </div>
+
+    <% if (eventos.length === 0) { %>
+      <div class="empty">
+        <div class="serif">Nenhum evento ainda</div>
+        <p>Volte em breve para conferir as novidades.</p>
+      </div>
+    <% } else { %>
+      <div class="grid">
+        <% eventos.forEach(e => { %>
+          <article class="card">
+            <div class="card-top">
+              <span class="badge badge-<%= e.tipo === 'corporativo' ? 'corp' : 'festa' %>"><%= e.tipo %></span>
+              <span class="badge-vagas"><%= e.vagas %> vagas</span>
+            </div>
+            <div class="card-body">
+              <h3><%= e.titulo %></h3>
+              <div class="meta">
+                <div>&#128197; <%= e.data %></div>
+                <div>&#128205; <%= e.local %></div>
+              </div>
+              <div class="card-foot">
+                <a href="/eventos/<%= e.id %>" class="btn btn-outline btn-sm btn-block">Ver detalhes</a>
+              </div>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

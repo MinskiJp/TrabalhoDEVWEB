@@ -1,0 +1,47 @@
+<%- include('../partials/head', { titulo: 'Admin' }) %>
+<%- include('../partials/navbar') %>
+<main>
+  <div class="container">
+    <div class="dash-head" style="display:flex; justify-content:space-between; align-items:flex-end">
+      <div>
+        <span class="eyebrow">Painel administrativo</span>
+        <h1>Meus eventos</h1>
+      </div>
+      <a href="/admin/eventos/novo" class="btn btn-primary">+ Novo evento</a>
+    </div>
+
+    <% if (eventos.length === 0) { %>
+      <div class="empty">
+        <div class="serif">Nenhum evento cadastrado</div>
+        <p><a href="/admin/eventos/novo" class="muted">Criar o primeiro &rarr;</a></p>
+      </div>
+    <% } else { %>
+      <table class="table">
+        <thead>
+          <tr><th>Evento</th><th>Tipo</th><th>Data</th><th>Inscritos</th><th>Status</th><th></th></tr>
+        </thead>
+        <tbody>
+          <% eventos.forEach(e => { %>
+            <tr>
+              <td style="font-family:var(--serif); font-size:18px"><%= e.titulo %></td>
+              <td><span class="badge badge-<%= e.tipo === 'corporativo' ? 'corp' : 'festa' %>"><%= e.tipo %></span></td>
+              <td style="font-family:var(--mono); font-size:12px"><%= e.data %></td>
+              <td><%= e.inscritos %>/<%= e.capacidade %></td>
+              <td><span class="badge <%= e.status === 'ativo' ? 'badge-ok' : 'badge-no' %>"><%= e.status %></span></td>
+              <td>
+                <div style="display:flex; gap:6px; justify-content:flex-end">
+                  <a href="/admin/eventos/<%= e.id %>/inscritos" class="btn btn-outline btn-sm">Inscritos</a>
+                  <a href="/admin/eventos/<%= e.id %>/editar" class="btn btn-outline btn-sm">Editar</a>
+                  <form action="/admin/eventos/<%= e.id %>/excluir" method="POST" onsubmit="return confirm('Excluir este evento?')">
+                    <button class="btn btn-danger btn-sm" type="submit">Excluir</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </div>
+</main>
+<%- include('../partials/footer') %>

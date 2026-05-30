@@ -1,0 +1,39 @@
+<%- include('../partials/head', { titulo: 'Cadastro' }) %>
+<%- include('../partials/navbar') %>
+<main>
+  <div class="container">
+    <div class="auth-wrap">
+      <div class="form-card">
+        <span class="eyebrow">Comece agora</span>
+        <h1>Criar conta</h1>
+        <p class="sub">Preencha os dados para se cadastrar.</p>
+
+        <% if (erro) { %><div class="alert"><%= erro %></div><% } %>
+
+        <form action="/cadastro" method="POST">
+          <div class="field">
+            <label>Nome completo</label>
+            <input type="text" name="nome" required placeholder="Seu nome">
+          </div>
+          <div class="field">
+            <label>E-mail</label>
+            <input type="email" name="email" required placeholder="voce@exemplo.com">
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label>Senha</label>
+              <input type="password" name="senha" required placeholder="min. 6 caracteres">
+            </div>
+            <div class="field">
+              <label>Confirmar senha</label>
+              <input type="password" name="confirmarSenha" required placeholder="repita a senha">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Criar conta</button>
+        </form>
+        <p class="form-foot">Ja tem conta? <a href="/login">Entrar</a></p>
+      </div>
+    </div>
+  </div>
+</main>
+<%- include('../partials/footer') %>

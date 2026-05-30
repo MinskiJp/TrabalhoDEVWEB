@@ -1,0 +1,45 @@
+<%- include('../partials/head', { titulo: 'Eventos' }) %>
+<%- include('../partials/navbar') %>
+<main>
+  <div class="container">
+    <span class="eyebrow">Catalogo</span>
+    <div class="section-head" style="margin-top:12px">
+      <h2>Eventos disponiveis</h2>
+    </div>
+
+    <div class="filters">
+      <a href="/eventos" class="chip <%= filtro === 'todos' ? 'active' : '' %>">Todos</a>
+      <a href="/eventos?tipo=corporativo" class="chip <%= filtro === 'corporativo' ? 'active' : '' %>">Corporativo</a>
+      <a href="/eventos?tipo=festa" class="chip <%= filtro === 'festa' ? 'active' : '' %>">Festa</a>
+    </div>
+
+    <% if (eventos.length === 0) { %>
+      <div class="empty">
+        <div class="serif">Nenhum evento encontrado</div>
+        <p>Tente outro filtro ou volte mais tarde.</p>
+      </div>
+    <% } else { %>
+      <div class="grid">
+        <% eventos.forEach(e => { %>
+          <article class="card">
+            <div class="card-top">
+              <span class="badge badge-<%= e.tipo === 'corporativo' ? 'corp' : 'festa' %>"><%= e.tipo %></span>
+              <span class="badge-vagas"><%= e.vagas %> vagas</span>
+            </div>
+            <div class="card-body">
+              <h3><%= e.titulo %></h3>
+              <div class="meta">
+                <div>&#128197; <%= e.data %></div>
+                <div>&#128205; <%= e.local %></div>
+              </div>
+              <div class="card-foot">
+                <a href="/eventos/<%= e.id %>" class="btn btn-outline btn-sm btn-block">Ver detalhes</a>
+              </div>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</main>
+<%- include('../partials/footer') %>

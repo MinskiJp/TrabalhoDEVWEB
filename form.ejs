@@ -1,0 +1,64 @@
+<%- include('../partials/head', { titulo: evento ? 'Editar Evento' : 'Novo Evento' }) %>
+<%- include('../partials/navbar') %>
+<main>
+  <div class="container">
+    <div class="auth-wrap" style="max-width:560px">
+      <div class="form-card">
+        <span class="eyebrow"><%= evento ? 'Editar' : 'Criar' %></span>
+        <h1><%= evento ? 'Editar evento' : 'Novo evento' %></h1>
+        <p class="sub">Preencha as informacoes do evento.</p>
+
+        <% if (erro) { %><div class="alert"><%= erro %></div><% } %>
+
+        <form action="<%= evento ? '/admin/eventos/' + evento.id : '/admin/eventos' %>" method="POST">
+          <div class="field">
+            <label>Titulo do evento</label>
+            <input type="text" name="titulo" required value="<%= evento ? evento.titulo : '' %>">
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label>Tipo</label>
+              <select name="tipo" required>
+                <option value="corporativo" <%= evento && evento.tipo === 'corporativo' ? 'selected' : '' %>>Corporativo</option>
+                <option value="festa" <%= evento && evento.tipo === 'festa' ? 'selected' : '' %>>Festa</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Capacidade</label>
+              <input type="number" name="capacidade" min="1" required value="<%= evento ? evento.capacidade : '' %>">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label>Data</label>
+              <input type="text" name="data" required placeholder="15/06/2025 14:00" value="<%= evento ? evento.data : '' %>">
+            </div>
+            <div class="field">
+              <label>Local</label>
+              <input type="text" name="local" required value="<%= evento ? evento.local : '' %>">
+            </div>
+          </div>
+          <div class="field">
+            <label>Descricao</label>
+            <textarea name="descricao"><%= evento ? evento.descricao : '' %></textarea>
+          </div>
+          <% if (evento) { %>
+            <div class="field">
+              <label>Status</label>
+              <select name="status">
+                <option value="ativo" <%= evento.status === 'ativo' ? 'selected' : '' %>>Ativo</option>
+                <option value="encerrado" <%= evento.status === 'encerrado' ? 'selected' : '' %>>Encerrado</option>
+                <option value="cancelado" <%= evento.status === 'cancelado' ? 'selected' : '' %>>Cancelado</option>
+              </select>
+            </div>
+          <% } %>
+          <div style="display:flex; gap:12px">
+            <button type="submit" class="btn btn-primary btn-block"><%= evento ? 'Salvar alteracoes' : 'Criar evento' %></button>
+            <a href="/admin" class="btn btn-outline">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+<%- include('../partials/footer') %>
